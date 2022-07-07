@@ -1,6 +1,5 @@
 import numpy as np
 import os
-import cv2
 import matplotlib.pyplot as plt
 import json
 import time
@@ -10,7 +9,6 @@ from PIL import Image
 import pandas as pd
 import random
 from IPython.display import Video
-import cv2 
 import numpy as np
 from matplotlib import pyplot as plt
 from PIL import Image
@@ -20,7 +18,6 @@ import sys
 import statistics
 import pickle
 from statistics import mode
-from tensorflow.keras.utils import to_categorical
 
 from scipy.spatial.distance import cosine
 from keras_vggface.vggface import VGGFace
@@ -35,31 +32,25 @@ from pathlib import Path
 
 import tensorflow as tf
 from keras.layers import Input
-
-from google.cloud import storage
-from google.cloud.storage import blob
 import keras
 
 from mtcnn.mtcnn import MTCNN
+from cv2 import cv2
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-%matplotlib inline
 
-from tensorflow.keras.models import load_model
+from keras.utils import to_categorical
+from keras.models import load_model
 from flask import Flask, request, jsonify, url_for, render_template, flash, redirect
 import uuid
 import os
 import numpy as np
 from werkzeug.utils import secure_filename
-from tensorflow.keras.applications import MobileNet
 from PIL import Image, ImageFile
 from io import BytesIO
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.mobilenet import preprocess_input
-from tensorflow.keras.applications.mobilenet import decode_predictions
-#from app import app
+from keras.preprocessing import image
 
 LABELS = ['FAKE', 'REAL']
 IMG_SIZE = 299
@@ -218,7 +209,6 @@ def upload_form():
 
 @app.route('/', methods=['POST'])
 def upload_video():
-    prediction={}
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
@@ -257,5 +247,8 @@ def display_image(filename):
     #print('display_video filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
-if __name__ == "__main__":
-    app.run()
+
+if __name__ == '__main__':
+    # This is used when running locally only. When deploying to Google App
+    # Engine, a webserver process such as Gunicorn will serve the app.
+    app.run(host='127.0.0.1', port=8080, debug=True)
