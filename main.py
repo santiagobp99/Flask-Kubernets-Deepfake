@@ -33,7 +33,6 @@ from pathlib import Path
 import tensorflow as tf
 from keras.layers import Input
 import keras
-
 from mtcnn.mtcnn import MTCNN
 from cv2 import cv2
 

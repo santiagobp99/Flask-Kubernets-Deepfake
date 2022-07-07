@@ -25,4 +25,4 @@ runtime_config:
 # https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
 automatic_scaling:
   min_num_instances: 1
-  max_num_instances: 5
+  max_num_instances: 7
