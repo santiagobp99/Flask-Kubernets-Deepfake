@@ -50,16 +50,9 @@ from werkzeug.utils import secure_filename
 from PIL import Image, ImageFile
 from io import BytesIO
 from keras.preprocessing import image
-import sys, os
 
 LABELS = ['FAKE', 'REAL']
 IMG_SIZE = 299
-
-ALLOWED_EXTENSION = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'])
-IMAGE_WIDTH = 224
-IMAGE_HEIGHT = 224
-IMAGE_CHANNELS = 3
-
 def build_feature_extractor():
     feature_extractor = InceptionV3(
         weights="imagenet",
@@ -77,6 +70,8 @@ def build_feature_extractor():
 
 
 feature_extractor = build_feature_extractor()
+
+import sys, os
 
 # original
 def extract_face(frame,detector,required_size=(299, 299)):
@@ -190,6 +185,11 @@ def prediccion(path):
         prediccion = cnnrnn.predict(mapa[None,:,:])
         a[img_path] = "El rostro es :{} \n Con una probabilidad de: {:.2%}".format(LABELS[np.argmax(prediccion)], np.amax(prediccion) )
     return a
+    
+ALLOWED_EXTENSION = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'])
+IMAGE_WIDTH = 224
+IMAGE_HEIGHT = 224
+IMAGE_CHANNELS = 3
 
 def allowed_file(filename):
     return '.' in filename and \
